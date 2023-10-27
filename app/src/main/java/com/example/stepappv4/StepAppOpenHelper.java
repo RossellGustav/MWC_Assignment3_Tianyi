@@ -31,7 +31,7 @@ public class StepAppOpenHelper extends SQLiteOpenHelper {
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
 
-        // Load all records in the database
+    // Load all records in the database
     public static void loadRecords(Context context){
         List<String> dates = new LinkedList<String>();
         StepAppOpenHelper databaseHelper = new StepAppOpenHelper(context);
@@ -50,6 +50,7 @@ public class StepAppOpenHelper extends SQLiteOpenHelper {
         database.close();
 
         Log.d("STORED TIMESTAMPS: ", String.valueOf(dates));
+
     }
 
     // load records from a single day
@@ -118,11 +119,27 @@ public class StepAppOpenHelper extends SQLiteOpenHelper {
             cursor.moveToNext();
         }
 
-        // 5. Close the cursor and database
         cursor.close();
         database.close();
 
-        // 6. Return the map with hours and number of steps
+        return map;
+    }
+
+    public static Map<String, Integer> loadStepsByDay(Context context) {
+        Map<String, Integer> map = new TreeMap<>();
+        StepAppOpenHelper databaseHelper = new StepAppOpenHelper(context);
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = database.rawQuery("SELECT day, COUNT(*) FROM num_steps GROUP BY day", null);
+
+        while (cursor.moveToNext()) {
+            String day = cursor.getString(0);
+            Integer count = cursor.getInt(1);
+            map.put(day, count);
+        }
+
+        cursor.close();
+        database.close();
         return map;
     }
 

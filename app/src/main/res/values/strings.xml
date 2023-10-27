@@ -8,8 +8,9 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_steps">Steps</string>
-    <string name="menu_report">Report</string>
+    <string name="menu_report_hourly">Hourly Report</string>
     <string name="menu_profile">Profile</string>
+    <string name="menu_report_daily">Daily Report</string>
 
     <string name="num_steps">0</string>
     <string name="goal">Goal: 50</string>

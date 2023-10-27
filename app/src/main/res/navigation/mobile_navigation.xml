@@ -14,8 +14,14 @@
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.stepappv4.ui.Report.ReportFragment"
-        android:label="@string/menu_report"
+        android:label="@string/menu_report_hourly"
         tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_day"
+        android:name="com.example.stepappv4.ui.Day.DayFragment"
+        android:label="@string/menu_report_daily"
+        tools:layout="@layout/fragment_day" />
 
     <fragment
         android:id="@+id/nav_slideshow"

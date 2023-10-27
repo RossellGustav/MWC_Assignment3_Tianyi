@@ -80,19 +80,21 @@ public class HomeFragment extends Fragment {
         toggleButtonGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-                if (group.getCheckedButtonId() ==R.id.start_button)
-                {
-                    if (accSensor != null)
-                    {
-                        sensorListener = new StepCounterListener(stepCountsView, progressBar, database);
+                if (group.getCheckedButtonId() == R.id.start_button) {
+                    sensorListener = new StepCounterListener(stepCountsView, progressBar, database);
+                    if (accSensor != null) {
                         sensorManager.registerListener(sensorListener, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
                         Toast.makeText(getContext(), R.string.start_text, Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(getContext(), R.string.acc_sensor_not_available, Toast.LENGTH_LONG).show();
                     }
 
+                    if (stepDetectorSensor != null) {
+                        sensorManager.registerListener(sensorListener, stepDetectorSensor, SensorManager.SENSOR_DELAY_NORMAL);
+                        Toast.makeText(getContext(), R.string.start_text, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), R.string.step_detector_sensor_not_available, Toast.LENGTH_LONG).show();
+                    }
                 }
                 else
                 {
@@ -123,7 +125,7 @@ class  StepCounterListener implements SensorEventListener{
     int stepThreshold = 6;
 
     TextView stepCountsView;
-
+    public static int stepDetectorCounter = 0;
     CircularProgressIndicator progressBar;
     private SQLiteDatabase database;
 
@@ -188,6 +190,13 @@ class  StepCounterListener implements SensorEventListener{
 
                 break;
 
+            // TODO 18.3 (YOUR TURN): Add new case for STEP_DETECTOR sensor
+            case Sensor.TYPE_STEP_DETECTOR:
+                // TODO 18.4 (YOUR TURN): Call countSteps() function to count the number of steps using STEP_DETECTOR sensor
+                countSteps(sensorEvent.values[0]);
+
+                break;
+
         }
 
 
@@ -233,5 +242,11 @@ class  StepCounterListener implements SensorEventListener{
         }
     }
 
+    private void countSteps(float step)
+    {
+        stepDetectorCounter += step;
 
+        Log.d("STEP_DETECTOR STEPS: ", String.valueOf(stepDetectorCounter));
+
+    }
 }
